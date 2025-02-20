@@ -21,9 +21,18 @@ from rest_framework.authtoken import views
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from users.api.views import UserProfileExampleViewSet
 
+from cursosidiomas.api.views import CursoViewSet, AlunoViewSet, ProfessorViewSet, AulaViewSet, CertificadoViewSet, TutoriaViewSet
+
 router = SimpleRouter()
 
 router.register("users", UserProfileExampleViewSet, basename="users")
+
+router.register("cursos", CursoViewSet, basename="cursos")
+router.register("alunos", AlunoViewSet, basename="alunos")
+router.register("professores", ProfessorViewSet, basename="professores")
+router.register("aulas", AulaViewSet, basename="aulas")
+router.register("certificados", CertificadoViewSet, basename="certificados")
+router.register("tutorias", TutoriaViewSet, basename="tutorias")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
