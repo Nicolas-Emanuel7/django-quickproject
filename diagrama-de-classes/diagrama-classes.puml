@@ -1,0 +1,74 @@
+@startuml "Modelo de Classes"
+left to right direction
+
+abstract class Usuario {
+    -id: String
+    -nome: String
+    -email: String
+    -senha: String
+}
+
+class Aluno <<entity>> {
+    -matricula: String
+    -cursosInscritos: List<Curso>
+    -tutoriasSolicitadas: List<Tutoria>
+    -certificados: List<Certificado>
+    -aulasAssistidas: List<Aula>
+}
+
+class Professor <<entity>> {
+    -cursosMinistrados: List<Curso>
+    -tutorias: List<Tutoria>
+}
+
+class Curso <<entity>> {
+    -id: String
+    -titulo: String
+    -descricao: String
+    -professor: Professor
+    -aulas: List<Aula>
+    -idioma: String
+    -duracao: int
+    -alunosCadastrados: List<Aluno>
+    -certificado: Certificado
+}
+
+class Aula <<entity>> {
+    -id: String
+    -titulo: String
+    -conteudo: String
+    -duracao: int
+    -curso: Curso
+}
+
+class Certificado <<entity>> {
+    -id: String
+    -aluno: Aluno
+    -curso: Curso
+    -dataEmissao: Date
+}
+
+class Tutoria <<entity>> {
+    -id: String
+    -aluno: Aluno
+    -professor: Professor
+    -horario: Date
+    -status: String
+}
+
+Aluno -right-|> Usuario
+Professor -right-|> Usuario
+
+Professor "1" -down- "0..*" Curso: < Ministra
+Certificado "1" -down- "1" Curso: < Emitido
+Aluno "0..*" -down- "0..*" Curso: < Inscrito
+
+Aluno "1..*" -up- "0..*" Tutoria: < Solicita
+Professor "1*" -up- "0..*" Tutoria: < Participa
+
+Aluno "0..*" -- "0..*" Aula: < Assiste
+Professor "0..*" -- "0..*" Aula: < Cadastra
+
+Aluno "1*" -- "0..*" Certificado: < Possui
+
+@enduml
